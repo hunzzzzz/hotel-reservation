@@ -151,9 +151,6 @@ class ReservationSystem {
 
     // 이름으로 고객 객체 찾기
     private fun findCustomer(name: String): Customer? {
-        for (reservation in reservationList)
-            if (name == reservation.getCustomer().getCustomerName())
-                return reservation.getCustomer()
-        return null
+        return reservationList.find { it.getCustomer().getCustomerName() == name }?.getCustomer()
     }
 }

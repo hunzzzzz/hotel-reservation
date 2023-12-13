@@ -30,26 +30,28 @@ class ReservationSystem {
                     checkOutDate = getCheckOutDate(checkInDate)
                     completeReservation(customerName, roomNumber, checkInDate, checkOutDate)
                 }
+
                 "2" -> showReservationList(reservationList)
                 "3" -> showReservationListSorted(reservationList)
                 "4" -> {
                     println(Strings.QUIT_SYSTEM)
                     break
                 }
-                "5" -> printFinancialReport(reservationList)
+
+                "5" -> printFinancialReport()
                 "6" -> {}
                 else -> System.err.println(Strings.WRONG_OPTION)
             }
         }
     }
 
-    // 이름 입력
+    // [Option1] 이름 입력
     private fun getCustomerName(): String {
         println(Strings.GET_NAME)
         return readln()
     }
 
-    // 방 번호 입력
+    // [Option1] 방 번호 입력
     private fun getRoomNumber(): Int {
         var num: Int?
         while (true) {
@@ -64,7 +66,7 @@ class ReservationSystem {
         }
     }
 
-    // 체크인 날짜 입력
+    // [Option1] 체크인 날짜 입력
     private fun getCheckInDate(roomNum: Int): LocalDate {
         var date: LocalDate
         while (true) {
@@ -79,17 +81,7 @@ class ReservationSystem {
         }
     }
 
-    // 방 예약 가능 여부
-    private fun isRoomAvailable(roomNum: Int, date: LocalDate): Boolean {
-        for (reservation in reservationList) {
-            if ((roomNum == reservation.getRoom()
-                    .getRoomNumber()) && (date >= reservation.getCheckInDate()) && (date <= reservation.getCheckOutDate())
-            ) return false
-        }
-        return true
-    }
-
-    // 체크아웃 날짜 입력
+    // [Option1] 체크아웃 날짜 입력
     private fun getCheckOutDate(checkInDate: LocalDate): LocalDate {
         var date: LocalDate
         while (true) {
@@ -102,22 +94,23 @@ class ReservationSystem {
         }
     }
 
-    // 예약 완료 (객체 저장)
+    // [Option1] 예약 완료 (객체 저장)
     private fun completeReservation(name: String, roomNum: Int, checkin: LocalDate, checkout: LocalDate) {
         println(Strings.COMPLETE_RESERVATION)
+        val customer = findCustomer(name)
         reservationList.add(
-            Reservation(Customer(name), Room(roomNum), checkin, checkout)
+            Reservation(customer ?: Customer(name), Room(roomNum), checkin, checkout)
         )
     }
 
-    // 예약 목록 출력
+    // [Option2] 예약 목록 출력
     private fun showReservationList(list: ArrayList<Reservation>) {
         println(Strings.RESERVATION_LIST)
         for (i in list.indices)
             println("${i + 1}. ${list[i]}")
     }
 
-    // 예약 목록 출력 (정렬)
+    // [Option3] 예약 목록 출력 (정렬)
     private fun showReservationListSorted(list: ArrayList<Reservation>) {
         println(Strings.RESERVATION_LIST_SORTED)
 
@@ -127,15 +120,12 @@ class ReservationSystem {
         showReservationList(copiedList)
     }
 
-    private fun printFinancialReport(list: ArrayList<Reservation>) {
+    // [Option5] 입출금 내역 출력
+    private fun printFinancialReport() {
         println(Strings.GET_NAME_IN_FINANCIAL_REPORT)
         val name = readln()
-        var customer: Customer? = null
+        val customer = findCustomer(name)
 
-        for (reservation in list) {
-            if (reservation.getCustomer().getCustomerName() == name)
-                customer = reservation.getCustomer()
-        }
         if (customer == null)
             System.err.println(Strings.WRONG_NAME)
         else {
@@ -146,5 +136,24 @@ class ReservationSystem {
                     println("예약금으로 ${pair.second}점 출금되었습니다.")
             }
         }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    // (체크인 날짜 기준) 방 예약 가능 여부
+    private fun isRoomAvailable(roomNum: Int, date: LocalDate): Boolean {
+        for (reservation in reservationList) {
+            if ((roomNum == reservation.getRoom()
+                    .getRoomNumber()) && (date >= reservation.getCheckInDate()) && (date <= reservation.getCheckOutDate())
+            ) return false
+        }
+        return true
+    }
+
+    // 이름으로 고객 객체 찾기
+    private fun findCustomer(name: String): Customer? {
+        for (reservation in reservationList)
+            if (name == reservation.getCustomer().getCustomerName())
+                return reservation.getCustomer()
+        return null
     }
 }

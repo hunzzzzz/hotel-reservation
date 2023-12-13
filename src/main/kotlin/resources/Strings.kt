@@ -20,5 +20,9 @@ class Strings {
 
         const val COMPLETE_RESERVATION = "호텔 예약이 완료되었습니다"
 
+        const val RESERVATION_LIST = "호텔 예약자 목록입니다."
+        const val RESERVATION_LIST_SORTED = "호텔 예약자 목록입니다. (정렬 기준 : 체크인 날짜)"
+        const val NO_VALUE_IN_RESERVATION_LIST = "현재 예약자 목록이 없습니다."
+
     }
 }

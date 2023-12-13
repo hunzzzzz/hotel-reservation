@@ -8,6 +8,8 @@ class Reservation(customer: Customer, room: Room, checkInDate: LocalDate, checkO
     private val checkInDate: LocalDate
     private val checkOutDate: LocalDate
 
+    fun getCheckInDate() = this.checkInDate
+
     init {
         this.customer = customer
         this.room = room

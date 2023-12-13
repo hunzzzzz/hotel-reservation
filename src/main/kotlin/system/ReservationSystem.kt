@@ -32,8 +32,16 @@ class ReservationSystem {
                     completeReservation(customerName, roomNumber, checkInDate, checkOutDate)
                 }
 
-                "2" -> {}
-                "3" -> {}
+                "2" -> {
+                    println(Strings.RESERVATION_LIST)
+                    showReservationList(reservationList)
+                }
+
+                "3" -> {
+                    println(Strings.RESERVATION_LIST_SORTED)
+                    showReservationListSorted(reservationList)
+                }
+
                 "5" -> {}
                 "6" -> {}
                 else -> System.err.println(Strings.WRONG_OPTION)
@@ -94,10 +102,24 @@ class ReservationSystem {
         }
     }
 
+    // 예약 완료 (객체 저장)
     private fun completeReservation(name: String, roomNum: Int, checkin: LocalDate, checkout: LocalDate) {
         println(Strings.COMPLETE_RESERVATION)
         reservationList.add(
             Reservation(Customer(name), Room(roomNum), checkin, checkout)
         )
+    }
+
+    // 예약 목록 출력
+    private fun showReservationList(list: ArrayList<Reservation>) {
+        for (i in list.indices)
+            println("${i + 1}. ${list[i]}")
+    }
+
+    private fun showReservationListSorted(list: ArrayList<Reservation>) {
+        val copiedList = arrayListOf<Reservation>()
+        copiedList.addAll(list)
+        copiedList.sortBy { it.getCheckInDate() }
+        showReservationList(copiedList)
     }
 }

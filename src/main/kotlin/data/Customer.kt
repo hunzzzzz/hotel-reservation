@@ -1,5 +1,7 @@
 package data
 
+import resources.Prices
+
 class Customer(customerName: String) {
     private val customerName: String
     private var customerPoint: Int
@@ -7,13 +9,14 @@ class Customer(customerName: String) {
 
     init {
         this.customerName = customerName
-        customerPoint = 200_000 // 임의의 값
+        customerPoint = Prices.WELCOME_POINT // 임의의 값
         customerPointHistory = arrayListOf()
 
         customerPointHistory.add(Pair("입금", this.customerPoint))
     }
 
     fun getCustomerName() = this.customerName
+    fun getCustomerPoint() = this.customerPoint
     fun getCustomerPointHistory() = this.customerPointHistory
 
     fun spendMoney(money: Int) {

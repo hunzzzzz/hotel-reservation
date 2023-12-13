@@ -1,12 +1,14 @@
 package data
 
+import resources.Prices
+
 class Room(roomNumber: Int) {
     private val roomNumber: Int
     private val roomPrice: Int
 
     init {
         this.roomNumber = roomNumber
-        this.roomPrice = 100_000 // 임의의 값
+        this.roomPrice = Prices.ROOM_DEFAULT_AMOUNT // 임의의 값
     }
 
     fun getRoomNumber() = this.roomNumber

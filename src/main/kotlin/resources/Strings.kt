@@ -26,6 +26,8 @@ class Strings {
         const val GET_NAME_IN_FINANCIAL_REPORT = "조회하실 사용자 이름을 입력하세요."
         const val WRONG_NAME = "예약된 사용자를 조회할 수 없습니다."
 
+        const val INSUFFICIENT_BALANCE = "잔액이 부족합니다. 예약을 취소합니다."
+
         const val QUIT_SYSTEM = "예약 시스템을 종료합니다. 이용해주셔서 감사합니다."
 
     }

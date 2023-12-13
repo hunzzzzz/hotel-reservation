@@ -3,6 +3,7 @@ package system
 import data.Customer
 import data.Reservation
 import data.Room
+import resources.Prices
 import resources.Strings
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -98,6 +99,11 @@ class ReservationSystem {
     private fun completeReservation(name: String, roomNum: Int, checkin: LocalDate, checkout: LocalDate) {
         println(Strings.COMPLETE_RESERVATION)
         val customer = findCustomer(name)
+
+        if ((customer != null) && (customer.getCustomerPoint() - Prices.ROOM_DEFAULT_AMOUNT < 0)) {
+            println(Strings.INSUFFICIENT_BALANCE)
+            return
+        }
         reservationList.add(
             Reservation(customer ?: Customer(name), Room(roomNum), checkin, checkout)
         )
@@ -135,6 +141,7 @@ class ReservationSystem {
                 else
                     println("예약금으로 ${pair.second}점 출금되었습니다.")
             }
+            println("현재 포인트가 ${customer.getCustomerPoint()}점 남아있습니다.")
         }
     }
 
@@ -150,7 +157,6 @@ class ReservationSystem {
     }
 
     // 이름으로 고객 객체 찾기
-    private fun findCustomer(name: String): Customer? {
-        return reservationList.find { it.getCustomer().getCustomerName() == name }?.getCustomer()
-    }
+    private fun findCustomer(name: String) =
+        reservationList.find { it.getCustomer().getCustomerName() == name }?.getCustomer()
 }

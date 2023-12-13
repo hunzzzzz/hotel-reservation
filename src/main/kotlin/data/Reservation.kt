@@ -8,6 +8,7 @@ class Reservation(customer: Customer, room: Room, checkInDate: LocalDate, checkO
     private val checkInDate: LocalDate
     private val checkOutDate: LocalDate
 
+    fun getCustomer() = this.customer
     fun getRoom() = this.room
     fun getCheckInDate() = this.checkInDate
     fun getCheckOutDate() = this.checkOutDate
@@ -17,6 +18,8 @@ class Reservation(customer: Customer, room: Room, checkInDate: LocalDate, checkO
         this.room = room
         this.checkInDate = checkInDate
         this.checkOutDate = checkOutDate
+
+        this.customer.spendMoney(room.getRoomPrice())
     }
 
     override fun toString() =

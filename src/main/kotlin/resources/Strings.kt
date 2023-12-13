@@ -23,6 +23,9 @@ class Strings {
         const val RESERVATION_LIST = "호텔 예약자 목록입니다."
         const val RESERVATION_LIST_SORTED = "호텔 예약자 목록입니다. (정렬 기준 : 체크인 날짜)"
 
+        const val GET_NAME_IN_FINANCIAL_REPORT = "조회하실 사용자 이름을 입력하세요."
+        const val WRONG_NAME = "예약된 사용자를 조회할 수 없습니다."
+
         const val QUIT_SYSTEM = "예약 시스템을 종료합니다. 이용해주셔서 감사합니다."
 
     }

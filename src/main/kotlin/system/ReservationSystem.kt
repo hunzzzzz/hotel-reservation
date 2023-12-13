@@ -30,23 +30,13 @@ class ReservationSystem {
                     checkOutDate = getCheckOutDate(checkInDate)
                     completeReservation(customerName, roomNumber, checkInDate, checkOutDate)
                 }
-
-                "2" -> {
-                    println(Strings.RESERVATION_LIST)
-                    showReservationList(reservationList)
-                }
-
-                "3" -> {
-                    println(Strings.RESERVATION_LIST_SORTED)
-                    showReservationListSorted(reservationList)
-                }
-
+                "2" -> showReservationList(reservationList)
+                "3" -> showReservationListSorted(reservationList)
                 "4" -> {
                     println(Strings.QUIT_SYSTEM)
                     break
                 }
-
-                "5" -> {}
+                "5" -> printFinancialReport(reservationList)
                 "6" -> {}
                 else -> System.err.println(Strings.WRONG_OPTION)
             }
@@ -122,14 +112,39 @@ class ReservationSystem {
 
     // 예약 목록 출력
     private fun showReservationList(list: ArrayList<Reservation>) {
+        println(Strings.RESERVATION_LIST)
         for (i in list.indices)
             println("${i + 1}. ${list[i]}")
     }
 
+    // 예약 목록 출력 (정렬)
     private fun showReservationListSorted(list: ArrayList<Reservation>) {
+        println(Strings.RESERVATION_LIST_SORTED)
+
         val copiedList = arrayListOf<Reservation>()
         copiedList.addAll(list)
         copiedList.sortBy { it.getCheckInDate() }
         showReservationList(copiedList)
+    }
+
+    private fun printFinancialReport(list: ArrayList<Reservation>) {
+        println(Strings.GET_NAME_IN_FINANCIAL_REPORT)
+        val name = readln()
+        var customer: Customer? = null
+
+        for (reservation in list) {
+            if (reservation.getCustomer().getCustomerName() == name)
+                customer = reservation.getCustomer()
+        }
+        if (customer == null)
+            System.err.println(Strings.WRONG_NAME)
+        else {
+            for (pair in customer.getCustomerPointHistory()) {
+                if (pair.first == "입금")
+                    println("포인트 ${pair.second}점 입금되었습니다.")
+                else
+                    println("예약금으로 ${pair.second}점 출금되었습니다.")
+            }
+        }
     }
 }

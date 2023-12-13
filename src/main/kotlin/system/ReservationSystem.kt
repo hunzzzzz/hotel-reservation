@@ -40,7 +40,7 @@ class ReservationSystem {
 
                 "5" -> printFinancialReport()
                 "6" -> {}
-                else -> System.err.println(Strings.WRONG_OPTION)
+                else -> println(Strings.WRONG_OPTION)
             }
         }
     }
@@ -61,8 +61,8 @@ class ReservationSystem {
             if (num != null) {
                 if ((num >= 100) && (num <= 999)) {
                     return num
-                } else System.err.println(Strings.WRONG_ROOM_NUMBER)
-            } else System.err.println(Strings.WRONG_OPTION)
+                } else println(Strings.WRONG_ROOM_NUMBER)
+            } else println(Strings.WRONG_OPTION)
         }
     }
 
@@ -74,9 +74,9 @@ class ReservationSystem {
             date = LocalDate.parse(readln(), DateTimeFormatter.ofPattern("yyyyMMdd"))
 
             if (LocalDate.now() > date)
-                System.err.println(Strings.WRONG_CHECKIN_DATE)
+                println(Strings.WRONG_CHECKIN_DATE)
             else if (!isRoomAvailable(roomNum, date)) {
-                System.err.println(Strings.ROOM_UNAVAILABLE)
+                println(Strings.ROOM_UNAVAILABLE)
             } else return date
         }
     }
@@ -90,7 +90,7 @@ class ReservationSystem {
 
             if (checkInDate < date)
                 return date
-            else System.err.println(Strings.WRONG_CHECKOUT_DATE)
+            else println(Strings.WRONG_CHECKOUT_DATE)
         }
     }
 
@@ -127,7 +127,7 @@ class ReservationSystem {
         val customer = findCustomer(name)
 
         if (customer == null)
-            System.err.println(Strings.WRONG_NAME)
+            println(Strings.WRONG_NAME)
         else {
             for (pair in customer.getCustomerPointHistory()) {
                 if (pair.first == "입금")

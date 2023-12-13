@@ -21,13 +21,12 @@ class ReservationSystem {
         while (true) {
             println(Strings.CHOOSE_OPTIONS)
             option = readln()
-            if (option == "4") return
 
             when (option) {
                 "1" -> {
                     customerName = getCustomerName()
                     roomNumber = getRoomNumber()
-                    checkInDate = getCheckInDate()
+                    checkInDate = getCheckInDate(roomNumber)
                     checkOutDate = getCheckOutDate(checkInDate)
                     completeReservation(customerName, roomNumber, checkInDate, checkOutDate)
                 }
@@ -40,6 +39,11 @@ class ReservationSystem {
                 "3" -> {
                     println(Strings.RESERVATION_LIST_SORTED)
                     showReservationListSorted(reservationList)
+                }
+
+                "4" -> {
+                    println(Strings.QUIT_SYSTEM)
+                    break
                 }
 
                 "5" -> {}
@@ -71,7 +75,7 @@ class ReservationSystem {
     }
 
     // 체크인 날짜 입력
-    private fun getCheckInDate(): LocalDate {
+    private fun getCheckInDate(roomNum: Int): LocalDate {
         var date: LocalDate
         while (true) {
             println(Strings.GET_CHECKIN_DATE)
@@ -79,13 +83,19 @@ class ReservationSystem {
 
             if (LocalDate.now() > date)
                 System.err.println(Strings.WRONG_CHECKIN_DATE)
-            else if (!isRoomAvailable(date)) {
+            else if (!isRoomAvailable(roomNum, date)) {
                 System.err.println(Strings.ROOM_UNAVAILABLE)
             } else return date
         }
     }
 
-    private fun isRoomAvailable(inputDate: LocalDate): Boolean {
+    // 방 예약 가능 여부
+    private fun isRoomAvailable(roomNum: Int, date: LocalDate): Boolean {
+        for (reservation in reservationList) {
+            if ((roomNum == reservation.getRoom()
+                    .getRoomNumber()) && (date >= reservation.getCheckInDate()) && (date <= reservation.getCheckOutDate())
+            ) return false
+        }
         return true
     }
 
